@@ -9,6 +9,10 @@
 - Running AWS Glue crawler to standarize the schema and query the data on AWS Athena.
 - Visualize the resluts on both AWS Quicksight for historical data and Grafan for time series data.
 
+<p align="center">
+    <img width="200" src="[http://material-bread.org/logo-shadow.svg](https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png)">
+</p>
+
 # *Extraction and Transformation*
 
 For data acquisition there was no suitable free stockapi with decent number of requests/day, so
@@ -42,8 +46,12 @@ it can always fix it and analyse the data in Athena service using sql and use th
 -After analyzing the data quicksight was used to visualize the results of the historical data into charts and graphs readable to the client
 to get a useful insight from these stocks.
 
+![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+
 -And creating a live dashboard representing every change in the stock by connecting the live data in InfluxDB as a source to Grafana
 to do time series analysis on and create the live dashboard.
+
+![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
 
 
 # *Alerting System*
