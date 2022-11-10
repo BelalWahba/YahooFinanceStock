@@ -1,0 +1,257 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+    Generator: "former2"
+Description: ""
+Resources:
+    LogsLogGroup:
+        Type: "AWS::Logs::LogGroup"
+        Properties:
+            LogGroupName: "/aws-glue/crawlers"
+
+    RDSDBSubnetGroup:
+        Type: "AWS::RDS::DBSubnetGroup"
+        Properties:
+            DBSubnetGroupDescription: "Created from the RDS Management Console"
+            DBSubnetGroupName: "default-vpc-0dfe83edba9000c51"
+            SubnetIds: 
+              - "subnet-0290c9c847b378d69"
+              - "subnet-0f2e91c63125d9d61"
+              - "subnet-00314cf9f8983d943"
+              - "subnet-0bf32a4b8a8196d6a"
+              - "subnet-04603be3ef1241c44"
+              - "subnet-0674fc4669c4a7e5d"
+
+    EC2SecurityGroup:
+        Type: "AWS::EC2::SecurityGroup"
+        Properties:
+            GroupDescription: "launch-wizard-2 created 2022-10-27T14:40:47.534Z"
+            GroupName: "launch-wizard-2"
+            VpcId: "vpc-0dfe83edba9000c51"
+            SecurityGroupIngress: 
+              - 
+                CidrIp: "0.0.0.0/0"
+                FromPort: 80
+                IpProtocol: "tcp"
+                ToPort: 80
+              - 
+                CidrIp: "0.0.0.0/0"
+                FromPort: 22
+                IpProtocol: "tcp"
+                ToPort: 22
+              - 
+                CidrIp: "0.0.0.0/0"
+                FromPort: 8086
+                IpProtocol: "tcp"
+                ToPort: 8086
+              - 
+                CidrIp: "0.0.0.0/0"
+                FromPort: 3000
+                IpProtocol: "tcp"
+                ToPort: 3000
+              - 
+                CidrIp: "0.0.0.0/0"
+                FromPort: 443
+                IpProtocol: "tcp"
+                ToPort: 443
+            SecurityGroupEgress: 
+              - 
+                CidrIp: "0.0.0.0/0"
+                IpProtocol: "-1"
+
+    EC2Instance:
+        Type: "AWS::EC2::Instance"
+        Properties:
+            ImageId: "ami-08c40ec9ead489470"
+            InstanceType: "t2.micro"
+            KeyName: "grafanainflux"
+            AvailabilityZone: !Sub "${AWS::Region}a"
+            Tenancy: "default"
+            SubnetId: "subnet-04603be3ef1241c44"
+            EbsOptimized: false
+            SecurityGroupIds: 
+              - !Ref EC2SecurityGroup
+            SourceDestCheck: true
+            BlockDeviceMappings: 
+              - 
+                DeviceName: "/dev/sda1"
+                Ebs: 
+                    Encrypted: false
+                    VolumeSize: 8
+                    SnapshotId: "snap-0999f893e0b6a1b4e"
+                    VolumeType: "gp2"
+                    DeleteOnTermination: true
+            Tags: 
+              - 
+                Key: "Name"
+                Value: "GrafanaInflux"
+            HibernationOptions: 
+                Configured: false
+            EnclaveOptions: 
+                Enabled: false
+
+    EC2VolumeAttachment:
+        Type: "AWS::EC2::VolumeAttachment"
+        Properties:
+            VolumeId: "vol-04a66e9bbad7fcfb2"
+            InstanceId: !Ref EC2Instance
+            Device: "/dev/sda1"
+
+    EC2NetworkInterfaceAttachment:
+        Type: "AWS::EC2::NetworkInterfaceAttachment"
+        Properties:
+            NetworkInterfaceId: "eni-0c81c032bdf053336"
+            DeviceIndex: 0
+            InstanceId: !Ref EC2Instance
+            DeleteOnTermination: true
+
+    LambdaFunction:
+        Type: "AWS::Lambda::Function"
+        Properties:
+            Description: ""
+            FunctionName: "StockDataTransformation"
+            Handler: "lambda_function.lambda_handler"
+            Architectures: 
+              - "x86_64"
+            Code: 
+                S3Bucket: "prod-04-2014-tasks"
+                S3Key: !Sub "/snapshots/${AWS::AccountId}/StockDataTransformation-83cfb0b1-e9ea-4285-b983-ed3127bce855"
+                S3ObjectVersion: "egDPA9Rd82X.VUWfHdVbH5jMvlVImI0u"
+            MemorySize: 256
+            Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/StockDataTransformation-role-h7jlag3r"
+            Runtime: "python3.9"
+            Timeout: 12
+            TracingConfig: 
+                Mode: "PassThrough"
+            Layers: 
+              - !Sub "arn:aws:lambda:${AWS::Region}:336392948345:layer:AWSSDKPandas-Python39:1"
+            EphemeralStorage: 
+                Size: 512
+
+    LambdaFunction2:
+        Type: "AWS::Lambda::Function"
+        Properties:
+            Description: ""
+            Environment: 
+                Variables: 
+                    PASS: "@Mamaoba7"
+                    DATA: "StockData"
+                    IP: !GetAtt EC2Instance.PublicIp
+                    EMAIL: "belalwahbaa@gmail.com"
+                    USER: "admin"
+            FunctionName: "InfluxWrite"
+            Handler: "lambda_function.lambda_handler"
+            Architectures: 
+              - "x86_64"
+            Code: 
+                S3Bucket: "prod-04-2014-tasks"
+                S3Key: !Sub "/snapshots/${AWS::AccountId}/InfluxWrite-39727f85-98df-4cd0-9811-71ebec0f01d1"
+                S3ObjectVersion: "byKDLUjjZr0oV715CVp3W0sT0TsckEQO"
+            MemorySize: 128
+            Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/InfluxWrite-role-lsg4xie0"
+            Runtime: "python3.9"
+            Timeout: 3
+            TracingConfig: 
+                Mode: "PassThrough"
+            Layers: 
+              - !Sub "arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:layer:lnflux-test-1-lambda:2"
+            EphemeralStorage: 
+                Size: 512
+
+    LambdaFunction3:
+        Type: "AWS::Lambda::Function"
+        Properties:
+            Description: ""
+            FunctionName: "webscrapingsamlin-HelloWorldFunction-JQIvtqZEGaqZ"
+            Handler: "app.lambda_handler"
+            Architectures: 
+              - "x86_64"
+            Code: 
+                S3Bucket: "prod-04-2014-tasks"
+                S3Key: !Sub "/snapshots/${AWS::AccountId}/webscrapingsamlin-HelloWorldFunction-JQIvtqZEGaqZ-5f1c4481-4dee-4131-a8c7-ad5167e89b34"
+                S3ObjectVersion: "auh2sZ8Y7HweFrKAsQoFVDgeIts.Sn8s"
+            MemorySize: 256
+            Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/webscrapingsamlin-HelloWorldFunctionRole-1CJM78JCG18SB"
+            Runtime: "python3.9"
+            Timeout: 12
+            TracingConfig: 
+                Mode: "PassThrough"
+            EphemeralStorage: 
+                Size: 512
+            Tags: 
+              - 
+                Key: "lambda:createdBy"
+                Value: "SAM"
+
+    LambdaPermission:
+        Type: "AWS::Lambda::Permission"
+        Properties:
+            Action: "lambda:InvokeFunction"
+            FunctionName: !GetAtt LambdaFunction.Arn
+            Principal: "s3.amazonaws.com"
+            SourceArn: "arn:aws:s3:::stock-raw-records"
+
+    KinesisFirehoseDeliveryStream:
+        Type: "AWS::KinesisFirehose::DeliveryStream"
+        Properties:
+            DeliveryStreamName: !Sub "FH${KinesisStream}"
+            DeliveryStreamType: "KinesisStreamAsSource"
+            KinesisStreamSourceConfiguration: 
+                KinesisStreamARN: !GetAtt KinesisStream.Arn
+                RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/KinesisFirehoseServiceRole-FH${KinesisStream}-${AWS::Region}-1667839720043"
+            S3DestinationConfiguration: 
+                BucketARN: "arn:aws:s3:::stock-raw-records"
+                BufferingHints: 
+                    SizeInMBs: 5
+                    IntervalInSeconds: 60
+                CloudWatchLoggingOptions: 
+                    Enabled: true
+                    LogGroupName: !Sub "/aws/kinesisfirehose/FH${KinesisStream}"
+                    LogStreamName: "DestinationDelivery"
+                CompressionFormat: "UNCOMPRESSED"
+                EncryptionConfiguration: 
+                    NoEncryptionConfig: "NoEncryption"
+                Prefix: ""
+                RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/KinesisFirehoseServiceRole-FH${KinesisStream}-${AWS::Region}-1667839720043"
+            ExtendedS3DestinationConfiguration: 
+                BucketARN: "arn:aws:s3:::stock-raw-records"
+                BufferingHints: 
+                    SizeInMBs: 5
+                    IntervalInSeconds: 60
+                CloudWatchLoggingOptions: 
+                    Enabled: true
+                    LogGroupName: !Sub "/aws/kinesisfirehose/FH${KinesisStream}"
+                    LogStreamName: "DestinationDelivery"
+                CompressionFormat: "UNCOMPRESSED"
+                DataFormatConversionConfiguration: 
+                    Enabled: false
+                EncryptionConfiguration: 
+                    NoEncryptionConfig: "NoEncryption"
+                Prefix: ""
+                RoleARN: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/KinesisFirehoseServiceRole-FH${KinesisStream}-${AWS::Region}-1667839720043"
+                ProcessingConfiguration: 
+                    Enabled: false
+                S3BackupMode: "Disabled"
+
+    KinesisStream:
+        Type: "AWS::Kinesis::Stream"
+        Properties:
+            Name: "StockApi"
+            RetentionPeriodHours: 24
+            StreamEncryption: 
+                EncryptionType: "NONE"
+            ShardCount: 1
+
+    GlueCrawler:
+        Type: "AWS::Glue::Crawler"
+        Properties:
+            Name: "stockdata"
+            Role: "service-role/AWSGlueServiceRole-stockdata"
+            Targets: 
+                S3Targets: 
+                  - 
+                    Path: "s3://transformed-stock-data"
+            DatabaseName: "stockdata"
+            SchemaChangePolicy: 
+                UpdateBehavior: "UPDATE_IN_DATABASE"
+                DeleteBehavior: "DEPRECATE_IN_DATABASE"
+
