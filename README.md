@@ -46,7 +46,9 @@ it can always fix it and analyse the data in Athena service using sql and use th
 -After analyzing the data quicksight was used to visualize the results of the historical data into charts and graphs readable to the client
 to get a useful insight from these stocks.
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
+<p align="center">
+    <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/QuickSight.gif">
+</p>
 
 -And creating a live dashboard representing every change in the stock by connecting the live data in InfluxDB as a source to Grafana
 to do time series analysis on and create the live dashboard.
