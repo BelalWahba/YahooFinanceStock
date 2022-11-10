@@ -60,3 +60,7 @@ to do time series analysis on and create the live dashboard.
 # *Alerting System*
 
 Added an alerting function to the lambda triggered by kinesis data stream to send an email using SES once a certain condition is met
+
+<p align="center">
+    <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/SES.png">
+</p>
