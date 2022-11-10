@@ -7,7 +7,7 @@
 	- It can be batched using Kinesis Firehose and dumped into an S3 bucket.
 	- it triggers lambda functiont to write the data into InfluxDB and activate the SES alert function.
 - Running AWS Glue crawler to standarize the schema and query the data on AWS Athena.
-- Visualize the resluts on both AWS Quicksight for historical data and Grafan for time series data.
+- Visualize the resluts on both AWS Quicksight for historical data and Grafana for time series data.
 
 <p align="center">
     <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png">
