@@ -53,8 +53,9 @@ to get a useful insight from these stocks.
 -And creating a live dashboard representing every change in the stock by connecting the live data in InfluxDB as a source to Grafana
 to do time series analysis on and create the live dashboard.
 
-![Alt Text](https://media.giphy.com/media/vFKqnCdLPNOKc/giphy.gif)
-
+<p align="center">
+    <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/Grafana.gif">
+</p>
 
 # *Alerting System*
 
