@@ -1,4 +1,4 @@
-# YahooFinanceStockApi
+# YahooFinanceStock
 
 # *Overview*
 
