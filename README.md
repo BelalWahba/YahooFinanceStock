@@ -8,6 +8,7 @@
 	- it triggers lambda functiont to write the data into InfluxDB and activate the SES alert function.
 - Running AWS Glue crawler to standarize the schema and query the data on AWS Athena.
 - Visualize the resluts on both AWS Quicksight for historical data and Grafana for time series data.
+- Created a Cloudformation template to all the services used in the project
 
 <p align="center">
     <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png">
@@ -64,3 +65,7 @@ Added an alerting function to the lambda triggered by kinesis data stream to sen
 <p align="center">
     <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/SES.png">
 </p>
+
+# *Infrastructure as a Code (IAC)*
+
+Created a Cloudformation template to all the services used in the project so it can be launched in any region any account just by using it
