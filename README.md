@@ -10,7 +10,7 @@
 - Visualize the resluts on both AWS Quicksight for historical data and Grafan for time series data.
 
 <p align="center">
-    <img width="200" src="[http://material-bread.org/logo-shadow.svg](https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png)">
+    <img width="200" src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png">
 </p>
 
 # *Extraction and Transformation*
