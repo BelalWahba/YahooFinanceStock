@@ -11,7 +11,7 @@
 - Created a Cloudformation template to all the services used in the project.
 
 <p align="center">
-    <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/fsdfsdfsdfsd.png">
+    <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/Overview Diagram.png">
 </p>
 
 # *Extraction and Transformation*
