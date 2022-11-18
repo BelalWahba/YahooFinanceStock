@@ -2,13 +2,14 @@
 
 # *Overview*
 
-- Aquiring data by webscraping stocks from yahoo finance using lambda function and cleaning them .
-- Push the data into Kinesis Data Dtreams so that
+- Acquiring data by webscraping stocks from yahoo finance using lambda function and cleaning them .
+- Push the data into Kinesis Data Streams so that:
 	- It can be batched using Kinesis Firehose and dumped into an S3 bucket.
-	- it triggers lambda functiont to write the data into InfluxDB and activate the SES alert function.
-- Running AWS Glue crawler to standarize the schema and query the data on AWS Athena.
-- Visualize the resluts on both AWS Quicksight for historical data and Grafana for time series data.
-- Created a Cloudformation template to all the services used in the project.
+	- it triggers lambda function to write the data into InfluxDB.
+- Running AWS Glue crawler to standardize the schema and query the data on AWS Athena.
+- Visualize the results on both AWS Quicksight for historical data and Grafana for time series data.
+- Added an alerting function to the lambda triggered by kinesis data stream to send an email using SES once a certain condition is met.
+- Created a CloudFormation template to all the services used in the project.
 
 <p align="center">
     <img src="https://github.com/BelalWahba/YahooFinanceStockIngesion/blob/main/Sources/Overview Diagram.png">
